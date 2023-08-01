@@ -19,19 +19,19 @@ GLint fixY = 0;
 
 class obj3dmodel
 {
-    //Á¤Á¡
+    //ì •ì 
     struct vertex {
         double x;
         double y;
         double z;
     };
-    //¹ı¼± º¤ÅÍ
+    //ë²•ì„  ë²¡í„°
     struct normal {
         double nx;
         double ny;
         double nz;
     };
-    //¸é
+    //ë©´
     struct face {
         unsigned int v1, v2, v3;
         unsigned int n1, n2, n3;
@@ -41,8 +41,8 @@ class obj3dmodel
     vector<face> faces;
 
 public:
-    void readfile(const char* filename); //ÆÄÀÏ¸íÀ» ¹Ş¾Æ, ±¸Á¶Ã¼¿¡ ¸Â°Ô ÆÄ½ÌÇÏ¿© ¸â¹ö º¯¼ö¿¡ ÀúÀå 
-    void draw(); // ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ ÀÌ¿ëÇÏ¿© 3D ¸ğµ¨À» ·»´õ¸µ 
+    void readfile(const char* filename); //íŒŒì¼ëª…ì„ ë°›ì•„, êµ¬ì¡°ì²´ì— ë§ê²Œ íŒŒì‹±í•˜ì—¬ ë©¤ë²„ ë³€ìˆ˜ì— ì €ì¥ 
+    void draw(); // ì €ì¥ëœ ë°ì´í„°ë¥¼ ì´ìš©í•˜ì—¬ 3D ëª¨ë¸ì„ ë Œë”ë§ 
 };
 
 obj3dmodel model;
@@ -50,7 +50,7 @@ obj3dmodel model;
 void obj3dmodel::readfile(const char* filename)
 {
     string s;
-    ifstream fin(filename);    // ÆÄÀÏÀ» ÀĞ±â À§ÇØ ifstream »ç¿ë
+    ifstream fin(filename);    // íŒŒì¼ì„ ì½ê¸° ìœ„í•´ ifstream ì‚¬ìš©
 
     if (!fin)
     {
@@ -58,40 +58,40 @@ void obj3dmodel::readfile(const char* filename)
         return;
     }
 
-    //OBJ·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ÀĞ°í ÀÖ´ÂÁö È®ÀÎÇÏ±â À§ÇÑ º¯¼ö
+    //OBJë¡œë¶€í„° ë°ì´í„°ë¥¼ ì½ê³  ìˆëŠ”ì§€ í™•ì¸í•˜ê¸° ìœ„í•œ ë³€ìˆ˜
     int vertexCount = 0;
     int normalCount = 0;
     int faceCount = 0;
 
     while (getline(fin, s))
     {
-        if (s.empty() || s[0] == '#') //s°¡ ºñ¾îÀÖ°Å³ª, ÁÖ¼®(#·Î ½ÃÀÛÇÏ´Â ¹®ÀÚ¿­)ÀÌ¸é ¹«½Ã
+        if (s.empty() || s[0] == '#') //sê°€ ë¹„ì–´ìˆê±°ë‚˜, ì£¼ì„(#ë¡œ ì‹œì‘í•˜ëŠ” ë¬¸ìì—´)ì´ë©´ ë¬´ì‹œ
             continue;
 
-        istringstream iss(s); // ¹®ÀÚ¿­À» ÀĞ±â À§ÇØ, iss °´Ã¼ »ı¼º (ÆÄ½ÌÀ» À§ÇØ)
+        istringstream iss(s); // ë¬¸ìì—´ì„ ì½ê¸° ìœ„í•´, iss ê°ì²´ ìƒì„± (íŒŒì‹±ì„ ìœ„í•´)
         string type;
         iss >> type;
 
-        if (type == "v")    // Á¤Á¡ Á¤º¸
+        if (type == "v")    // ì •ì  ì •ë³´
         {
             vertex v;
             iss >> v.x >> v.y >> v.z;
             this->vertices.push_back(v);
             vertexCount++;
         }
-        else if (type == "vn")   // ¹ı¼± º¤ÅÍ Á¤º¸
+        else if (type == "vn")   // ë²•ì„  ë²¡í„° ì •ë³´
         {
             normal n;
             iss >> n.nx >> n.ny >> n.nz;
             this->normals.push_back(n);
             normalCount++;
         }
-        else if (type == "f")    // ¸é Á¤º¸
+        else if (type == "f")    // ë©´ ì •ë³´
         {
             face f;
-            char dummy; // »ç¿ëÇÏÁö ¾ÊÀ» ¹®ÀÚ¸¦ ÀúÀå 
+            char dummy; // ì‚¬ìš©í•˜ì§€ ì•Šì„ ë¬¸ìë¥¼ ì €ì¥ 
             iss >> f.v1 >> dummy >> dummy >> f.n1 >> f.v2 >> dummy >> dummy >> f.n2 >> f.v3 >> dummy >> dummy >> f.n3;
-            f.v1--; // 1À» »©¼­ 0ºÎÅÍ ½ÃÀÛÇÏµµ·Ï º¯È¯
+            f.v1--; // 1ì„ ë¹¼ì„œ 0ë¶€í„° ì‹œì‘í•˜ë„ë¡ ë³€í™˜
             f.v2--;
             f.v3--;
             f.n1--;
@@ -101,7 +101,7 @@ void obj3dmodel::readfile(const char* filename)
             faceCount++;
         }
     }
-    //OBJ ÆÄÀÏ·ÎºÎÅÍ Á¤»óÀûÀ¸·Î µ¥ÀÌÅÍ¸¦ ÀĞ¾î¿Â´Ù¸é ±× µ¥ÀÌÅÍ¸¦ Ãâ·Â
+    //OBJ íŒŒì¼ë¡œë¶€í„° ì •ìƒì ìœ¼ë¡œ ë°ì´í„°ë¥¼ ì½ì–´ì˜¨ë‹¤ë©´ ê·¸ ë°ì´í„°ë¥¼ ì¶œë ¥
     cout << "Vertex count: " << vertexCount << endl;
     cout << "Normal count: " << normalCount << endl;
     cout << "Face count: " << faceCount << endl;
@@ -136,26 +136,26 @@ void MyDisplay()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
 
-    // À§Ä¡¿¡ µû¶ó¼­ ÁÂÇ¥Ãàµµ È¸Àü
+    // ìœ„ì¹˜ì— ë”°ë¼ì„œ ì¢Œí‘œì¶•ë„ íšŒì „
     glRotatef(xValue, 1.0, 0.0, 0.0);
     glRotatef(yValue, 0.0, 1.0, 0.0);
     glRotatef(zValue, 0.0, 0.0, 1.0);
 
-    // ½Ã¾ß ¼³Á¤
+    // ì‹œì•¼ ì„¤ì •
     glOrtho(-2.0, 2.0, -2.0, 2.0, -2.0, 2.0);
 
     gluLookAt(0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    glColor3f(1.0, 1.0, 1.0); // ¸ğµ¨ÀÇ »ö»ó (Èò»ö)
+    glColor3f(1.0, 1.0, 1.0); // ëª¨ë¸ì˜ ìƒ‰ìƒ (í°ìƒ‰)
 
     glScalef(2.0f, 2.0f, 2.0f);
 
-    // obj3dmodel Å¬·¡½ºÀÇ draw ÇÔ¼ö È£ÃâÇÏ¿© ¸ğµ¨ ·»´õ¸µ
+    // obj3dmodel í´ë˜ìŠ¤ì˜ draw í•¨ìˆ˜ í˜¸ì¶œí•˜ì—¬ ëª¨ë¸ ë Œë”ë§
     model.draw();
 
     glFlush();
 }
 
-//¸¶¿ì½º ¹× Å°º¸µå ÀÌº¥Æ® 
+//ë§ˆìš°ìŠ¤ ë° í‚¤ë³´ë“œ ì´ë²¤íŠ¸ 
 void MyKeyboard(unsigned char KeyPressed, int X, int Y)
 {
     switch (KeyPressed)
@@ -223,14 +223,14 @@ void MyMouseMove(GLint X, GLint Y)
 
 int main(int argc, char* argv[])
 {
-    // »ç¿ëÇÒ obj ÆÄÀÏ °æ·Î
+    // ì‚¬ìš©í•  obj íŒŒì¼ ê²½ë¡œ
     //bear_bis.obj , kitten.obj , homer.obj
-    const char* filename = "C:\\Users\\±×·¡ÇÈ½º¿¬±¸½Ç\\OneDrive - µ¿¾Æ´ëÇĞ±³\\¹ÙÅÁ È­¸é\\4ÁÖÂ÷ °úÁ¦\\new_obj\\bear_bis.obj";
+    const char* filename = "Your file path\\model.obj";
 
-    // obj ÆÄÀÏ¿¡¼­ µ¥ÀÌÅÍ ÀĞ¾î¿À±â
+    // obj íŒŒì¼ì—ì„œ ë°ì´í„° ì½ì–´ì˜¤ê¸°
     model.readfile(filename);
 
-    // GLUT ÃÊ±âÈ­
+    // GLUT ì´ˆê¸°í™”
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowSize(2000, 1600);
@@ -241,7 +241,7 @@ int main(int argc, char* argv[])
     glutMouseFunc(MyMouseClick);
     glutMotionFunc(MyMouseMove);
 
-    // ±íÀÌ Å×½ºÆ® È°¼ºÈ­
+    // ê¹Šì´ í…ŒìŠ¤íŠ¸ í™œì„±í™”
     glEnable(GL_DEPTH_TEST);
 
     glutMainLoop();
