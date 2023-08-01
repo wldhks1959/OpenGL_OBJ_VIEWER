@@ -213,8 +213,8 @@ void MyMouseMove(GLint X, GLint Y)
 {
     if (clickDown == 1)
     {
-        xValue += (fixX - X);
-        yValue += (fixY - Y);
+        xValue += (fixY - Y);
+        yValue += (fixX - X);
         fixX = X;
         fixY = Y;
     }
